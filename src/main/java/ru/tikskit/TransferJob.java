@@ -39,12 +39,6 @@ public class TransferJob implements Runnable {
                 }
             }
 
-            if (transferAccounts != null && transferAccounts.getFrom().getMoney() == 0) {
-                accountsContainer.returnAccounts(transferAccounts);
-                transferAccounts = null;
-                continue;
-            }
-
             if (transferAccounts != null) {
                 doTransfer(transferAccounts.getFrom(), transferAccounts.getTo(), transactionNo);
                 accountsContainer.returnAccounts(transferAccounts);

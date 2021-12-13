@@ -1,14 +1,14 @@
 package ru.tikskit;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public class AccountsContainer {
 
     private final List<Account> accounts;
 
-    public AccountsContainer(Collection<Account> accounts) {
+    public AccountsContainer(Set<Account> accounts) {
         this.accounts = new ArrayList<>(accounts);
     }
 

@@ -9,7 +9,7 @@ import java.util.Set;
 public class App {
     private final static int ACCOUNT_COUNT = 4;
     private final static int TRANSACTION_COUNT = 30;
-    private final static int THREAD_COUNT = 40;
+    private final static int THREAD_COUNT = 4;
 
 
     public static void main(String[] args) {
@@ -20,7 +20,6 @@ public class App {
         }
 
         AccountsContainer accountsContainer = new AccountsContainer(accounts);
-
         TransactionsCounter transactionCounter = new TransactionsCounter(TRANSACTION_COUNT);
 
         List<Thread> threads = new ArrayList<>();

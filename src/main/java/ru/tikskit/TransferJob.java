@@ -51,7 +51,9 @@ public class TransferJob implements Runnable {
                 transferAccounts = null;
                 transactionNo = TransactionsCounter.VOID;
 
-                randomSleep();
+                if (!randomSleep()) {
+                    return;
+                }
             }
         }
     }
@@ -62,22 +64,24 @@ public class TransferJob implements Runnable {
         to.inc(delta);
         logger.info("Транзакция №{} переведено {} со счета {} на счет {}", transactionNo + 1, delta,
                 from, to);
-
     }
 
     private int getMoneyDelta(Account account) {
         if (account.getMoney() <= 0) {
+            logger.error("Некорректное значение суммы денег на счете: {}", account.getMoney());
             throw new IllegalArgumentException("Not enough money");
         }
         return ThreadLocalRandom.current().nextInt(1, account.getMoney() + 1);
     }
 
-    private void randomSleep() {
+    private boolean randomSleep() {
         int sleep = ThreadLocalRandom.current().nextInt(MIN_SLEEP, MAX_SLEEP);
         try {
             Thread.sleep(sleep);
+            return true;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            return false;
         }
     }
 

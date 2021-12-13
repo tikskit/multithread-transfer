@@ -7,9 +7,9 @@ import java.util.Set;
 
 
 public class App {
-    private final static int ACCOUNT_COUNT = 40;
-    private final static int TRANSACTION_COUNT = 30000;
-    private final static int THREAD_COUNT = 4000;
+    private final static int ACCOUNT_COUNT = 4;
+    private final static int TRANSACTION_COUNT = 30;
+    private final static int THREAD_COUNT = 40;
 
 
     public static void main(String[] args) {

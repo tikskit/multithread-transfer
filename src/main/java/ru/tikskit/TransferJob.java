@@ -21,14 +21,12 @@ public class TransferJob implements Runnable {
 
     @Override
     public void run() {
-        int transactionNo = TransactionsCounter.VOID;
+        int transactionNo;
         TransferAccounts transferAccounts;
         while (!Thread.currentThread().isInterrupted()) {
+            transactionNo = transactionCounter.request();
             if (transactionNo == TransactionsCounter.VOID) {
-                transactionNo = transactionCounter.request();
-                if (transactionNo == TransactionsCounter.VOID) {
-                    return;
-                }
+                return;
             }
             try {
                 transferAccounts = accountsContainer.requestAccounts();
@@ -40,7 +38,6 @@ public class TransferJob implements Runnable {
             doTransfer(transferAccounts.getFrom(), transferAccounts.getTo(), transactionNo);
 
             accountsContainer.returnAccounts(transferAccounts);
-            transactionNo = TransactionsCounter.VOID;
 
             if (!randomSleep()) {
                 return;

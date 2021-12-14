@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class AccountsContainer {
@@ -13,6 +14,11 @@ public class AccountsContainer {
     private final List<Account> accounts;
 
     public AccountsContainer(Set<Account> accounts) {
+        Objects.requireNonNull(accounts);
+        if (accounts.size() < 2) {
+            logger.error("Недопустимое количество счетов: {}", accounts.size());
+            throw new IllegalArgumentException("Количество счетов не должно быть меньше 2");
+        }
         this.accounts = new ArrayList<>(accounts);
     }
 

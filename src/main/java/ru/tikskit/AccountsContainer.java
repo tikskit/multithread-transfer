@@ -34,7 +34,7 @@ public class AccountsContainer {
         notifyAll();
     }
 
-    public synchronized int getTotalMoney() {
+    public synchronized long getTotalMoney() {
         return accounts.stream().map(Account::getMoney).reduce(Integer::sum).orElse(0);
     }
 

@@ -22,7 +22,7 @@ public class TransferJob implements Runnable {
     @Override
     public void run() {
         int transactionNo = TransactionsCounter.VOID;
-        TransferAccounts transferAccounts = null;
+        TransferAccounts transferAccounts;
         while (!Thread.currentThread().isInterrupted()) {
             if (transactionNo == TransactionsCounter.VOID) {
                 transactionNo = transactionCounter.request();
@@ -30,24 +30,20 @@ public class TransferJob implements Runnable {
                     return;
                 }
             }
-            if (transferAccounts == null) {
-                try {
-                    transferAccounts = accountsContainer.requestAccounts();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    return;
-                }
+            try {
+                transferAccounts = accountsContainer.requestAccounts();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
             }
 
-            if (transferAccounts != null) {
-                doTransfer(transferAccounts.getFrom(), transferAccounts.getTo(), transactionNo);
-                accountsContainer.returnAccounts(transferAccounts);
-                transferAccounts = null;
-                transactionNo = TransactionsCounter.VOID;
+            doTransfer(transferAccounts.getFrom(), transferAccounts.getTo(), transactionNo);
 
-                if (!randomSleep()) {
-                    return;
-                }
+            accountsContainer.returnAccounts(transferAccounts);
+            transactionNo = TransactionsCounter.VOID;
+
+            if (!randomSleep()) {
+                return;
             }
         }
     }
